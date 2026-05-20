@@ -41,6 +41,51 @@ activities = {
     }
 }
 
+# Additional activities
+activities.update({
+    # Sports related
+    "Soccer Team": {
+        "description": "Competitive soccer team practicing drills and playing matches",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 6:00 PM",
+        "max_participants": 25,
+        "participants": ["liam@mergington.edu"]
+    },
+    "Basketball Club": {
+        "description": "Pickup games, skills training, and intramural competitions",
+        "schedule": "Wednesdays and Fridays, 5:00 PM - 7:00 PM",
+        "max_participants": 20,
+        "participants": ["noah@mergington.edu"]
+    },
+
+    # Artistic
+    "Art Club": {
+        "description": "Explore drawing, painting, and mixed media projects",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["ava@mergington.edu"]
+    },
+    "Drama Club": {
+        "description": "Acting workshops, play production, and stagecraft",
+        "schedule": "Thursdays, 4:00 PM - 6:30 PM",
+        "max_participants": 30,
+        "participants": ["isabella@mergington.edu"]
+    },
+
+    # Intellectual
+    "Debate Team": {
+        "description": "Competitive speech and debate practice and tournaments",
+        "schedule": "Tuesdays, 5:00 PM - 7:00 PM",
+        "max_participants": 16,
+        "participants": ["lucas@mergington.edu"]
+    },
+    "Robotics Club": {
+        "description": "Design and build robots for competitions and learning engineering",
+        "schedule": "Wednesdays, 3:30 PM - 5:30 PM",
+        "max_participants": 12,
+        "participants": ["mia@mergington.edu"]
+    }
+})
+
 
 @app.get("/")
 def root():
@@ -61,6 +106,10 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student is already signed up for this activity")
 
     # Add student
     activity["participants"].append(email)
